@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,6 +31,16 @@
     </style>
 </head>
 <body>
+        <!-- NEW: Email Registration Section -->
+        <div class="section-title" style="background: #28a745;">Email Update Portal</div>
+        <div style="background: #fff; padding: 15px; border: 1px solid #dee2e6; border-radius: 6px; margin-bottom: 20px;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; color: #333;">Agli baar salary slip seedhe Gmail par paane ke liye apna Email register karein:</p>
+            <div style="display: flex; gap: 10px; max-width: 500px;">
+                <input type="email" id="userEmail" placeholder="example@gmail.com" style="margin: 0; padding: 10px;">
+                <button onclick="saveEmailToSheet()" style="width: auto; background: #28a745; white-space: nowrap; padding: 10px 20px;">Save Email</button>
+            </div>
+            <p id="email-status" style="margin: 10px 0 0 0; font-weight: bold;"></p>
+        </div>
 
 <div class="container">
     <!-- Login Section -->
@@ -227,5 +236,48 @@ document.getElementById('d-gross').innerText = emp["Gross Salary after Leave Ded
 document.getElementById('d-pf').innerText = emp["April.26 PF Amount"] !== undefined ? emp["April.26 PF Amount"] : 0;document.getElementById('d-tds').innerText = emp["Other Recover/Deposits/TDS"] !== undefined ? emp["Other Recover/Deposits/TDS"] : 0;document.getElementById('d-total-deduct').innerText = emp["Total Deduction Amount"] !== undefined ? emp["Total Deduction Amount"] : 0;
 // SECTION 4: Payout & Recovery Details (U-X)
 document.getElementById('d-due').innerText = emp["Salary Due for Payment"] !== undefined ? emp["Salary Due for Payment"] : 0;document.getElementById('d-bank').innerText = emp["Monthly Salary for Payment (Bank)"] || "-";document.getElementById('d-cash').innerText = emp["Monthly Salary for Payment Non CBSE (Cash)"] !== undefined ? emp["Monthly Salary for Payment Non CBSE (Cash)"] : 0;document.getElementById('d-advance').innerText = emp["Salary Advance Payment Recovery Amount"] || "-";}function showError(message) {const errorMsg = document.getElementById('error-msg');errorMsg.innerText = message;errorMsg.classList.remove('hidden');}function logout() {document.getElementById('membercode-input').value = '';document.getElementById('dashboard').classList.add('hidden');document.getElementById('login-box').classList.remove('hidden');}
+async function saveEmailToSheet() {
+    const email = document.getElementById('userEmail').value.trim();
+    const statusText = document.getElementById('email-status');
+    // Login box se member code uthana
+    const memberCode = document.getElementById('membercode-input').value.trim(); 
+    
+    if (!email) {
+        statusText.style.color = "#dc3545";
+        statusText.innerText = "Kripya ek valid email enter karein!";
+        return;
+    }
+
+    statusText.style.color = "#007bff";
+    statusText.innerText = "Email save ho raha hai...";
+
+    // Apne Google Apps Script Web App ka URL yahan dalein
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxupnUXo62b_vCIR4nQ_Zhpd2o3mV1L4qcCfAsjV8C_kznniYnj9CAmRM90HlIsPmoVDg/exec"; 
+
+    const data = {
+        action: "saveEmail",
+        userId: memberCode,
+        email: email
+    };
+
+    try {
+        await fetch(webAppUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        statusText.style.color = "#28a745";
+        statusText.innerText = "✔ Email safaltapoorvak save ho gaya hai!";
+        document.getElementById('userEmail').value = ""; // Input clear karne ke liye
+    } catch (error) {
+        statusText.style.color = "#dc3545";
+        statusText.innerText = "Error: Email save nahi ho paya.";
+        console.error(error);
+    }
+}
+
 </script>
-</html>
+                                              </html>
