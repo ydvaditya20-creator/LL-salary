@@ -1,0 +1,231 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Salary Portal</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; margin: 0; }
+        .container { max-width: 1100px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); box-sizing: border-box; }
+        .center-text { text-align: center; }
+        
+        /* Login Box */
+        #login-box { max-width: 400px; margin: 0 auto; padding: 20px; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        button { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; width: 100%; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .error { color: #dc3545; font-weight: bold; margin-top: 15px; }
+        .hidden { display: none; }
+        
+        /* Dashboard & Layout */
+        .welcome-header { border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .section-title { background: #007bff; color: white; padding: 8px 15px; font-size: 16px; font-weight: bold; border-radius: 4px; margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; }
+        
+        /* Horizontal Table Styling */
+        .table-responsive { width: 100%; overflow-x: auto; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th, td { padding: 10px 12px; border: 1px solid #dee2e6; text-align: center; font-size: 13px; }
+        th { background-color: #f8f9fa; color: #495057; font-weight: 600; }
+        
+        .logout-btn { background: #6c757d; width: auto; padding: 10px 20px; }
+        .logout-btn:hover { background: #5a6268; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Login Section -->
+    <div id="login-box" class="center-text">
+        <h2>Employee Portal</h2>
+        <p>Apna Member Code enter karke details dekhein</p>
+        <input type="text" id="membercode-input" placeholder="Example: N-SHEM1230">
+        <button onclick="loginUser()">View Details</button>
+        <p id="error-msg" class="error hidden"></p>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="hidden">
+        <div class="welcome-header">
+            <div>
+                <h2 style="margin: 0; color: #007bff;" id="user-name"></h2>
+                <p style="margin: 5px 0 0 0; color: #666; font-weight: bold;" id="user-code"></p>
+            </div>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+
+        <!-- SECTION 1: A-J Staff Details -->
+        <div class="section-title">Staff Details (A - J)</div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>SL N0. (A)</th>
+                        <th>Status (B)</th>
+                        <th>Member Code (C)</th>
+                        <th>Member Name (D)</th>
+                        <th>Department (E)</th>
+                        <th>Branch (F)</th>
+                        <th>Position (G)</th>
+                        <th>Monthly Salary 2026-27 (N)</th>
+                        <th>Salary Increment Amt (O)</th>
+                        <th>Final Monthly Salary (P)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="d-sl"></td>
+                        <td id="d-status"></td>
+                        <td id="d-mcode"></td>
+                        <td id="d-mname"></td>
+                        <td id="d-dept"></td>
+                        <td id="d-branch"></td>
+                        <td id="d-pos"></td>
+                        <td>₹<span id="d-monthly-sal"></span></td>
+                        <td><span id="d-inc"></span></td>
+                        <td>₹<span id="d-final-sal"></span></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 2: K-Q Salary Details -->
+        <div class="section-title">Salary Details (K - Q)</div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Monthly No. Working Days (H)</th>
+                        <th>Leave detail in Month (I)</th>
+                        <th>Leave Taken by EMP. (J)</th>
+                        <th>Total Present Days (K)</th>
+                        <th>Extra Working Days (L)</th>
+                        <th>Total Working Days (M)</th>
+                        
+                        <th>Gross Salary After Deduction (Q)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="d-m-days"></td>
+                        <td id="d-l-detail"></td>
+                        <td id="d-l-taken"></td>
+                        <td id="d-present"></td>
+                        <td id="d-extra"></td>
+                        <td id="d-total-work"></td>
+                        
+                        <td>₹<span id="d-gross"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 3: R-T Deduction Details -->
+        <div class="section-title">Deduction Details (R - T)</div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>April.26 PF Amount (R)</th>
+                        <th>Other Recover/Deposits/TDS (S)</th>
+                        <th>Total Deduction Amount (T)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>₹<span id="d-pf"></span></td>
+                        <td>₹<span id="d-tds"></span></td>
+                        <td style="color: #dc3545; font-weight: bold;">₹<span id="d-total-deduct"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 4: U-X Payout & Recovery Details -->
+        <div class="section-title">Payout & Recovery Details (U - X)</div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Salary Due for Payment (U)</th>
+                        <th>Monthly Salary (Bank) (V)</th>
+                        <th>Monthly Salary Non CBSE (Cash) (W)</th>
+                        <th>Salary Advance Recovery Amt (X)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color: #28a745; font-weight: bold;">₹<span id="d-due"></span></td>
+                        <td><span id="d-bank"></span></td>
+                        <td>₹<span id="d-cash"></span></td>
+                        <td><span id="d-advance"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    async function loginUser() {
+        const inputCode = document.getElementById('membercode-input').value.trim();
+        
+        if (!inputCode) {
+            showError("Kripya Member Code enter karein!");
+            return;
+        }
+
+        try {
+            const response = await fetch('data.json');
+            if (!response.ok) throw new Error("data.json file nahi mili.");
+            
+            const employees = await response.json();
+
+            // Member Code case-insensitive check
+            const emp = employees.find(e => e["Member Code"] && e["Member Code"].toString().toLowerCase() === inputCode.toLowerCase());
+
+            if (emp) {
+                showDashboard(emp);
+            } else {
+                showError("Galat Member Code! Kripya sahi code dalein.");
+            }
+        } catch (error) {
+            showError("Error: " + error.message);
+        }
+    }
+
+    function showDashboard(emp) {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('error-msg').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+
+        // Header
+        document.getElementById('user-name').innerText = emp["Member Name"] || "-";
+        document.getElementById('user-code').innerText = "Code: " + (emp["Member Code"] || "-");
+
+        // SECTION 1: Staff Details (A-J)
+        document.getElementById('d-sl').innerText = emp["SL N0."] !== undefined ? emp["SL N0."] : "-";
+        document.getElementById('d-status').innerText = emp["Status"] || "-";
+        document.getElementById('d-mcode').innerText = emp["Member Code"] || "-";
+        document.getElementById('d-mname').innerText = emp["Member Name"] || "-";
+        document.getElementById('d-dept').innerText = emp["Department"] || "-";
+        document.getElementById('d-branch').innerText = emp["Branch"] || "-";
+        document.getElementById('d-pos').innerText = emp["Position"] || "-";
+        document.getElementById('d-m-days').innerText = emp["Monthly No.of Working days"] !== undefined ? emp["Monthly No.of Working days"] : 0;
+        document.getElementById('d-l-detail').innerText = emp["Leave detail in Month"] !== undefined ? emp["Leave detail in Month"] : 0;
+        document.getElementById('d-l-taken').innerText = emp["Leave Taken by EMP."] !== undefined ? emp["Leave Taken by EMP."] : 0;
+
+        // SECTION 2: Salary Details (K-Q)
+        document.getElementById('d-present').innerText = emp["Total Present Days"] !== undefined ? emp["Total Present Days"] : 0;
+document.getElementById('d-extra').innerText = emp["Extra working days"] !== undefined ? emp["Extra working days"] : 0;
+document.getElementById('d-total-work').innerText = emp["Total Working Days"] !== undefined ? emp["Total Working Days"] : 0;
+document.getElementById('d-monthly-sal').innerText = emp["Monthly Salary Session 2026-2027"] !== undefined ? emp["Monthly Salary Session 2026-2027"] : 0;
+document.getElementById('d-inc').innerText = emp["Salary Increment Amount from April.26"] || "-";
+document.getElementById('d-final-sal').innerText = emp["Final Monthly Salary from April.26"] !== undefined ? emp["Final Monthly Salary from April.26"] : 0;
+document.getElementById('d-gross').innerText = emp["Gross Salary after Leave Deduction"] !== undefined ? emp["Gross Salary after Leave Deduction"] : 0;
+// SECTION 3: Deduction Details (R-T)
+document.getElementById('d-pf').innerText = emp["April.26 PF Amount"] !== undefined ? emp["April.26 PF Amount"] : 0;document.getElementById('d-tds').innerText = emp["Other Recover/Deposits/TDS"] !== undefined ? emp["Other Recover/Deposits/TDS"] : 0;document.getElementById('d-total-deduct').innerText = emp["Total Deduction Amount"] !== undefined ? emp["Total Deduction Amount"] : 0;
+// SECTION 4: Payout & Recovery Details (U-X)
+document.getElementById('d-due').innerText = emp["Salary Due for Payment"] !== undefined ? emp["Salary Due for Payment"] : 0;document.getElementById('d-bank').innerText = emp["Monthly Salary for Payment (Bank)"] || "-";document.getElementById('d-cash').innerText = emp["Monthly Salary for Payment Non CBSE (Cash)"] !== undefined ? emp["Monthly Salary for Payment Non CBSE (Cash)"] : 0;document.getElementById('d-advance').innerText = emp["Salary Advance Payment Recovery Amount"] || "-";}function showError(message) {const errorMsg = document.getElementById('error-msg');errorMsg.innerText = message;errorMsg.classList.remove('hidden');}function logout() {document.getElementById('membercode-input').value = '';document.getElementById('dashboard').classList.add('hidden');document.getElementById('login-box').classList.remove('hidden');}
+</script>
+</html>
