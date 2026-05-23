@@ -31,6 +31,7 @@
     </style>
 </head>
 <body>
+    <div id="email" class="hidden">
         <!-- NEW: Email Registration Section -->
         <div class="section-title" style="background: #28a745;">Email Update Portal</div>
         <div style="background: #fff; padding: 15px; border: 1px solid #dee2e6; border-radius: 6px; margin-bottom: 20px;">
@@ -41,7 +42,7 @@
             </div>
             <p id="email-status" style="margin: 10px 0 0 0; font-weight: bold;"></p>
         </div>
-
+    </div>
 <div class="container">
     <!-- Login Section -->
     <div id="login-box" class="center-text">
@@ -207,7 +208,7 @@
         document.getElementById('login-box').classList.add('hidden');
         document.getElementById('error-msg').classList.add('hidden');
         document.getElementById('dashboard').classList.remove('hidden');
-
+        document.getElementById('email').classList.remove('hidden');
         // Header
         document.getElementById('user-name').innerText = emp["Member Name"] || "-";
         document.getElementById('user-code').innerText = "Code: " + (emp["Member Code"] || "-");
