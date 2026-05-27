@@ -238,7 +238,7 @@ document.getElementById('d-pf').innerText = emp["April.26 PF Amount"] !== undefi
 // SECTION 4: Payout & Recovery Details (U-X)
 document.getElementById('d-due').innerText = emp["Salary Due for Payment"] !== undefined ? emp["Salary Due for Payment"] : 0;document.getElementById('d-bank').innerText = emp["Monthly Salary for Payment (Bank)"] || "-";document.getElementById('d-cash').innerText = emp["Monthly Salary for Payment Non CBSE (Cash)"] !== undefined ? emp["Monthly Salary for Payment Non CBSE (Cash)"] : 0;document.getElementById('d-advance').innerText = emp["Salary Advance Payment Recovery Amount"] || "-";}
     function showError(message) {const errorMsg = document.getElementById('error-msg');errorMsg.innerText = message;errorMsg.classList.remove('hidden');}
-    function logout() {document.getElementById('membercode-input').value = '';document.getElementById('dashboard').classList.add('hidden');document.getElementById('login-box').classList.remove('hidden') document.getElementById('email').classList.add('hidden');}
+    function logout() {document.getElementById('membercode-input').value = '';document.getElementById('dashboard').classList.add('hidden');document.getElementById('login-box').classList.remove('hidden') ;document.getElementById('email').classList.add('hidden');}
 async function saveEmailToSheet() {
     const email = document.getElementById('userEmail').value.trim();
     const statusText = document.getElementById('email-status');
